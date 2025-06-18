@@ -1,234 +1,272 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Currency Converter</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background: linear-gradient(135deg, #74ebd5, #acb6e5); /* Gradient background */
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            justify-content: center;
-            align-items: center;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Teju</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        .container {
-            background-color: #fff;
-            width: 90%;
-            max-width: 600px; /* Slightly wider */
-            margin: 2rem auto;
-            padding: 2.5rem;
-            border-radius: 15px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            text-align: center;
-            animation: fadeIn 0.5s ease-in; /* Fade-in animation */
-        }
+    html, body {
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      font-family: sans-serif;
+      color: white;
+      background: black;
+    }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+    
+    canvas#fireworksCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
 
-        h1 {
-            font-size: 2.2rem;
-            font-weight: bold;
-            color: #2c3e50; /* Darker blue */
-            margin-bottom: 2rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
+    
+    .slideshow {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: 100%;
+      background-size: cover;
+      background-position: center;
+      animation: slideShow 25s infinite;
+      z-index: 0;
+    }
 
-        .i1, .i2, .i3 {
-            margin: 1.2rem 0;
-            padding: 0.5rem 0;
-        }
+    @keyframes slideShow {
+      0%   { background-image: url("bdimg1.jpg"); }
+      20%  { background-image: url("bdimg2.jpg"); }
+      40%  { background-image: url("bdimg3.jpg"); }
+      60%  { background-image: url("bdimg4.jpg"); }
+      80%  { background-image: url("bdimg5.jpg"); }
+      100% { background-image: url("bdimg1.jpg"); }
+    }
 
-        .label {
-            font-size: 1.1rem;
-            color: #34495e;
-            margin-bottom: 0.5rem;
-            display: block;
-        }
+    
+    .content {
+      position: relative;
+      z-index: 2;
+      height: 90vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
+    }
 
-        #fromcurrency, #tocurrency, #amount {
-            width: 100%;
-            padding: 0.8rem;
-            border: 2px solid #dfe6e9;
-            border-radius: 10px;
-            font-size: 1rem;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
+    .content h1, .content p {
+      animation: glow 2s infinite alternate;
+    }
 
-        #fromcurrency:focus, #tocurrency:focus, #amount:focus {
-            border-color: #0984e3; /* Vibrant blue */
-            box-shadow: 0 0 8px rgba(9, 132, 227, 0.4);
-            outline: none;
-        }
+    .content h1 {
+      font-size: 6vw;
+      margin-bottom: 20px;
+      padding: 0 10px;
+    }
 
-        .button, .swap-button {
-            background-color: #0984e3;
-            color: #fff;
-            padding: 0.8rem 2rem;
-            border: none;
-            border-radius: 10px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin: 0.5rem;
-        }
+    .content p {
+      font-size: 4vw;
+      padding: 0 20px;
+      max-width: 90%;
+    }
 
-        .button:hover, .swap-button:hover {
-            background-color: #0652dd;
-            transform: translateY(-3px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        }
+    @keyframes glow {
+      0% {
+        text-shadow: 0 0 5px #fff, 0 0 10px #ff00cc, 0 0 20px #ff00cc, 0 0 40px #ff00cc;
+      }
+      50% {
+        text-shadow: 0 0 10px #fff, 0 0 20px #ff00cc, 0 0 30px #ff00cc, 0 0 60px #ff00cc;
+      }
+      100% {
+        text-shadow: 0 0 5px #fff, 0 0 10px #ff00cc, 0 0 20px #ff00cc, 0 0 40px #ff00cc;
+      }
+    }
 
-        .swap-button {
-            background-color: #636e72; /* Neutral gray for swap */
-        }
+    
+    .footer {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 15px 10px;
+      background: rgba(0, 0, 0, 0.4);
+      color: #ffccff;
+      font-weight: bold;
+      font-size: 1em;
+      backdrop-filter: blur(5px);
+      width: 100%;
+      animation: fadeInUp 2s ease;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+    }
 
-        .swap-button:hover {
-            background-color: #2d3436;
-        }
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
-        .result-container {
-            margin-top: 2rem;
-            padding: 1.2rem;
-            border: 2px dashed #b2bec3;
-            border-radius: 10px;
-            font-size: 1.3rem;
-            color: #2d3436;
-            background-color: #f1f2f6;
-            transition: all 0.3s ease;
-        }
+    @media (min-width: 768px) {
+      .content h1 {
+        font-size: 3em;
+      }
 
-        .error {
-            color: #d63031; /* Red for errors */
-            font-weight: bold;
-        }
+      .content p {
+        font-size: 1.5em;
+      }
+    }
 
-        .footer {
-            text-align: center;
-            color: #2d3436;
-            font-size: 0.9rem;
-            margin-top: 1rem;
-            opacity: 0.8;
-        }
+    @media (max-width: 480px) {
+      .content h1 {
+        font-size: 2em;
+      }
 
-        @media (max-width: 600px) {
-            .container {
-                width: 95%;
-                padding: 1.5rem;
-            }
-            h1 {
-                font-size: 1.8rem;
-            }
-            .button, .swap-button {
-                padding: 0.6rem 1.2rem;
-                font-size: 0.9rem;
-            }
-        }
-    </style>
+      .content p {
+        font-size: 1.2em;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1 class="title">Currency Converter</h1>
-        <div class="i1">
-            <label for="amount" class="label">Amount</label>
-            <input type="number" id="amount" placeholder="Enter Amount" class="input" value="100">
-        </div>
-        <div class="i2">
-            <label for="fromcurrency" class="label">From Currency</label>
-            <select id="fromcurrency" class="select">
-                <option value="USD">USD - US Dollar</option>
-                <option value="INR">INR - Indian Rupee</option>
-                <option value="EUR">EUR - Euro</option>
-                <option value="GBP">GBP - British Pound</option>
-                <option value="JPY">JPY - Japanese Yen</option>
-                <option value="CAD">CAD - Canadian Dollar</option>
-            </select>
-        </div>
-        <div class="i3">
-            <label for="tocurrency" class="label">To Currency</label>
-            <select id="tocurrency" class="select">
-                <option value="EUR">EUR - Euro</option>
-                <option value="USD">USD - US Dollar</option>
-                <option value="GBP">GBP - British Pound</option>
-                <option value="JPY">JPY - Japanese Yen</option>
-                <option value="CAD">CAD - Canadian Dollar</option>
-                <option value="INR">INR - Indian Rupee</option>
-            </select>
-        </div>
-        <div class="button-container">
-            <button id="convertbutton" class="button">Convert</button>
-            <button id="swapbutton" class="swap-button">Swap Currencies</button>
-        </div>
-        <div id="result" class="result-container">--------</div>
-    </div>
-    <p class="footer">Designed and developed by <strong>Satya Sameer</strong></p>
+  
+  <canvas id="fireworksCanvas"></canvas>
 
-    <script>
-        // Predefined exchange rates (relative to USD)
-        const exchangeRates = {
-            USD: 1,
-            EUR: 0.93,
-            GBP: 0.79,
-            JPY: 157.20,
-            CAD: 1.37,
-            INR: 83.50,
-        };
+  
+  <div class="slideshow"></div>
 
-        // Function to convert currency
-        function convertCurrency() {
-            const amountInput = document.getElementById('amount').value;
-            const fromCurrency = document.getElementById('fromcurrency').value;
-            const toCurrency = document.getElementById('tocurrency').value;
-            const resultDiv = document.getElementById('result');
+  
+  <div class="content">
+    <h1>Happy Birthday Teju</h1>
+    <p>Who shines brighter than all 7 BTS members combined! 🎉</p>
+  </div>
 
-            // Validate input
-            if (!amountInput || isNaN(amountInput) || amountInput <= 0) {
-                resultDiv.textContent = 'Please enter a valid amount.';
-                resultDiv.classList.add('error');
-                return;
-            }
+  
+  <footer class="footer">
+    <p>&copy;  All copyrights reserved to Tejaswini Devi</p>
+  </footer>
 
-            resultDiv.classList.remove('error');
-            const amount = parseFloat(amountInput);
+  
+  <script>
+    const canvas = document.getElementById('fireworksCanvas');
+    const ctx = canvas.getContext('2d');
+    let W = window.innerWidth;
+    let H = window.innerHeight;
+    canvas.width = W;
+    canvas.height = H;
 
-            // Convert to USD first, then to target currency
-            const usdAmount = amount / exchangeRates[fromCurrency];
-            const convertedAmount = usdAmount * exchangeRates[toCurrency];
+    const fireworks = [];
+    const particles = [];
 
-            // Display result with 2 decimal places
-            resultDiv.textContent = `${amount.toFixed(2)} ${fromCurrency} = ${convertedAmount.toFixed(2)} ${toCurrency}`;
+    function random(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+
+    class Firework {
+      constructor() {
+        this.x = random(0, W);
+        this.y = H;
+        this.targetY = random(100, H / 2);
+        this.speed = random(6, 9); // Increased speed
+        this.color = `hsl(${Math.floor(random(0, 360))}, 100%, 50%)`;
+      }
+
+      update() {
+        this.y -= this.speed;
+        if (this.y < this.targetY) {
+          for (let i = 0; i < 100; i++) {
+            particles.push(new Particle(this.x, this.y, this.color));
+          }
+          return false;
         }
+        return true;
+      }
 
-        // Function to swap currencies
-        function swapCurrencies() {
-            const fromCurrency = document.getElementById('fromcurrency');
-            const toCurrency = document.getElementById('tocurrency');
-            const temp = fromCurrency.value;
-            fromCurrency.value = toCurrency.value;
-            toCurrency.value = temp;
-            convertCurrency(); // Re-run conversion after swap
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, 2, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+      }
+    }
+
+    class Particle {
+      constructor(x, y, color) {
+        this.x = x;
+        this.y = y;
+        this.radius = 2;
+        this.color = color;
+        this.speedX = random(-3, 3);
+        this.speedY = random(-3, 3);
+        this.alpha = 1;
+        this.decay = random(0.01, 0.02);
+      }
+
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        this.alpha -= this.decay;
+        return this.alpha > 0;
+      }
+
+      draw() {
+        ctx.globalAlpha = this.alpha;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+        ctx.globalAlpha = 1;
+      }
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, W, H);
+
+      if (Math.random() < 0.05) {
+        fireworks.push(new Firework());
+      }
+
+      for (let i = fireworks.length - 1; i >= 0; i--) {
+        if (!fireworks[i].update()) {
+          fireworks.splice(i, 1);
+        } else {
+          fireworks[i].draw();
         }
+      }
 
-        // Event listeners
-        document.getElementById('convertbutton').addEventListener('click', convertCurrency);
-        document.getElementById('swapbutton').addEventListener('click', swapCurrencies);
+      for (let i = particles.length - 1; i >= 0; i--) {
+        if (!particles[i].update()) {
+          particles.splice(i, 1);
+        } else {
+          particles[i].draw();
+        }
+      }
 
-        // Real-time conversion on input change
-        document.getElementById('amount').addEventListener('input', convertCurrency);
-        document.getElementById('fromcurrency').addEventListener('change', convertCurrency);
-        document.getElementById('tocurrency').addEventListener('change', convertCurrency);
+      requestAnimationFrame(animate);
+    }
 
-        // Trigger conversion on page load
-        window.onload = convertCurrency;
-    </script>
+    animate();
+
+    window.addEventListener("resize", () => {
+      W = window.innerWidth;
+      H = window.innerHeight;
+      canvas.width = W;
+      canvas.height = H;
+    });
+  </script>
 </body>
 </html>
